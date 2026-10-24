@@ -1,0 +1,16 @@
+name: Deploy to Firebase Hosting on PR
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Desplegar canal de vista previa
+        run: |
+          npx --yes firebase-tools hosting:channel:deploy pr-${{ github.event.pull_request.number }} --expires 7d --token "${{ secrets.FIREBASE_TOKEN }}" --project hola-mundo-67c1c
