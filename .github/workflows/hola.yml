@@ -2,17 +2,23 @@ name: Hola mundo
 
 on:
   push:
+    branches: [ main ]
   workflow_dispatch:
     inputs:
       saludo:
         description: 'Mensaje de saludo'
         type: string
-        default: 'Hola buenos días'
+        default: 'Hola buenos dias'
 
 jobs:
   saludar:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - run: echo "hola ${{ github.actor }}, commit ${{ github.sha }}"
-      - run: echo "elegiste: ${{ inputs.saludo }}"
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Imprimir autor y commit
+        run: echo "hola ${{ github.actor }}, commit ${{ github.sha }}"
+
+      - name: Imprimir mensaje
+        run: echo "elegiste ${{ github.event.inputs.saludo || 'Hola por push automatico' }}"
